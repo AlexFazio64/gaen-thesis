@@ -7,3 +7,5 @@
 *.toc
 *.out
 docs
+*.bbl
+*.blg
