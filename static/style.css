@@ -1,0 +1,26 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+}
+
+:root{
+	--hair: #261112;
+	--hat: #e5ebf4;
+	--star: #f1d828;
+	--shirt: #9eb57e;
+	--pants: #6e1024;
+}
+
+body {
+	background-color: var(--hair);
+	color: var(--hat);
+	
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-direction: column;
+
+	min-width: 240px;
+}

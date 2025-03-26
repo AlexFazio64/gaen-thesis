@@ -1,0 +1,24 @@
+{
+	"manifest_version": 3,
+	"name": "Gaen Knows Everything",
+	"version": "1.0",
+
+	"icons": {
+		"96": "favicon.png"
+	},
+
+	"action": {
+		"default_popup": "index.html"
+	},
+
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": ["content.js"],
+			"run_at": "document_end"
+		}
+	],
+
+	"permissions": ["scripting", "activeTab"],
+	"host_permissions": ["<all_urls>", "http://localhost/*"]
+}

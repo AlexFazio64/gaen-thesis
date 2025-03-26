@@ -1,4 +1,4 @@
 # GAEN: Generative AI for Enhanced Narrative
 
-server code  
-embedder not provided because of size
+extension code  
+build and load the extension in chrome to test it out
