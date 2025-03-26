@@ -17,16 +17,18 @@ L'architettura del sistema è composta dalle seguenti componenti principali:
             provenienti dal frontend e comunica con il database e il LLM.
       \item \textbf{Embedder}: è il componente che genera gli embedding
             delle parole chiave che popolano il database, nonchè gli embedding
-            delle richieste del frontend.
+            delle richieste provenienti dal frontend.
       \item \textbf{Database}: memorizza le informazioni relative agli embedding
             delle parole chiave che fungono da input al LLM.
+            Fornisce inoltre, il contesto aggiuntivo utile a generare
+            le risposte.
       \item \textbf{LLM}: è il modello che genera le risposte in base
             alle richieste del frontend.
 \end{itemize}
 
 \begin{figure}
       \centering
-      \includegraphics[width=1\textwidth]{res/architecture.png}
+      \includegraphics[width=1\textwidth]{res/architecture2.png}
       \caption{Architettura del sistema e flusso dei dati}
       \label{fig:architettura}
 \end{figure}
@@ -47,7 +49,7 @@ Quando l'utente seleziona un elemento della pagina, il
 frontend estrae il contenuto testuale e lo invia al backend
 per l'elaborazione.
 Il backend genera quindi una risposta e la invia al
-frontend, che la visualizza all'utente.
+frontend, che la mostra all'utente.
 
 Inoltre, il frontend permette di selezionare quale modello
 utilizzare per generare le risposte, in modo da poter
@@ -63,13 +65,13 @@ Il backend è implementato in Python e utilizza il framework
 FastAPI che permette la creazione di API RESTful, per
 applicazioni web scalabili e performanti.
 Il backend è progettato per essere modulare e facilmente
-estensibile, in modo da poter aggiungere nuove funzionalità
-in futuro.
+configurabile, in modo da poter aggiungere nuove
+funzionalità in futuro.
 
 Quando il backend riceve una richiesta dal frontend, esegue
 le seguenti operazioni:
 \begin{itemize}
-      \item Preprocessa il contenuto testuale dalla richiesta
+      \item Preprocessa il contenuto testuale della richiesta
       \item Tokenizza il testo dividendo il testo in frasi
             più piccole.\\
             \textbf{Questo passaggio è fondamentale per creare il contesto
@@ -100,17 +102,17 @@ Ollama è un tool open source che consente di eseguire LLM
 localmente, senza la necessità di una connessione a
 Internet.
 Ollama stato è progettato per essere semplice da usare e
-consente di eseguire modelli LLM in modo rapido e
-efficiente sfruttando l'accelerazione hardware delle GPU
-quando possibile.
+consente di eseguire LLM in modo rapido e efficiente
+sfruttando l'accelerazione hardware delle GPU quando
+possibile.
 Ollama offre una varieta di modelli LLM pre-addestrati, tra
-cui \texttt{Llama}, \texttt{Mistral}, \texttt{Phi},
-\texttt{Deepseek} e \texttt{Gemma}.
+cui \textbf{Llama}, \textbf{Mistral}, \textbf{Phi},
+\textbf{Deepseek} e \textbf{Gemma}.
 
-In particolare, \texttt{Gemma} è il modello utilizzato per
+In particolare, \textbf{Gemma} è il modello utilizzato per
 testare il sistema, in quanto è ottimizzato per l'uso in
 locale e offre prestazioni eccellenti rispetto a modelli di
-dimensioni comparabili.
+dimensioni comparabili\cite{gemma_2025}.
 
 \subsection{Embedder}
 \label{sec:embedder}
@@ -262,8 +264,7 @@ In particolare, sono stati eseguiti i seguenti passaggi:
       \item Normalizzazione del testo
       \item Oversampling di alcune parole chiave
       \item Introduzione di rumore nel dataset
-      \item altre operazioni (ulteriori dettagli sono
-            disponibili nel codice sorgente)
+      \item altre operazioni (disponibili nel codice sorgente\cite{af64_spoiler_filter})
 \end{itemize}
 
 Si è deciso di eseguire l'oversampling di alcuni tipi di
@@ -275,7 +276,7 @@ Un esempio di oversampling è mostrato in figura
 
 \begin{figure}[H]
       \centering
-      \includegraphics[width=0.6\textwidth]{res/noise.png}
+      \includegraphics[width=0.7\textwidth]{res/noise.png}
       \caption{Esempio di oversampling}
       \label{fig:oversampling}
 \end{figure}
@@ -289,10 +290,9 @@ Il risultato finale del dataset è stato un file JSON con il seguente formato:
             anchor         & positive                                                                                            & negative     \\
             \midrule
             koyomi araragi & vampiro, studente, adolescente                                                                      & nobile       \\
-            shinobu oshino & vampiro, 500 anni, nobile                                                                           & studente     \\
+            oshino shinobu & vampiro, 500 anni, nobile                                                                           & studente     \\
             ononoki        & sissi, yay. peace peace! \faHandPeace[regular]\faEye[regular]\_\faEye[regular]\faHandPeace[regular] & hatsune miku \\
-            bakemonogatari & anime, manga, light novel                                                                           & film         \\
-            nise           & anime, manga, light novel                                                                           & film         \\
+            bakemonogatari & anime, manga, light novel                                                                           & bad          \\
             \bottomrule
       \end{tabularx}
       \caption{Formato del dataset}
@@ -365,24 +365,17 @@ rappresentativo.
 \label{sec:fine_tuning}
 Il fine-tuning del modello di embedding è stato eseguito
 utilizzando la libreria \texttt{SentenceTransformers} e il
-dataset creato in precedenza.
-Il fine-tuning è stato eseguito utilizzando il modello
-\texttt{all-MiniLM-L6-v2}, che è un modello di embedding
-pre-addestrato basato su \texttt{BERT} e ottimizzato per
-l'uso in locale.
-Il fine-tuning è stato eseguito utilizzando il dataset
-creato in precedenza e il modello è stato addestrato per un
-numero di epoche pari a 4.
+dataset creato in precedenza su molteplici modelli, tra cui
+\texttt{all-MiniLM-L6-v2}, per un numero di epoche pari a
+4.
 
-La funzione di penalità utilizzata è stata la
+La \textit{loss function} utilizzata è stata la
 \texttt{TripletLoss}\cite{hermans2017defense}, comunemente
 utilizzata per l'addestramento di modelli di embedding.
 La \texttt{TripletLoss} è progettata per minimizzare la
 distanza tra l'ancora e l'esempio positivo, e massimizzare
 la distanza tra l'ancora e l'esempio negativo.
-\\
 
-\noindent
 Come discuteremo nel prossimo capitolo, il fine-tuning del
-modello ha permesso di ottenere un modello di embedding
-robusto e rappresentativo.
+modello ha permesso di migliorare il modello di embedding
+rendendolo più adatto al dominio in questione.

@@ -4,7 +4,7 @@
 \section{Contesto della Ricerca}
 \label{sec:contesto-della-ricerca}
 In questo capitolo verranno presentati alcuni lavori
-correlati all'oggetto di questa tesi.
+correlati all'oggetto di questo lavoro.
 In particolare saranno introdotti alcuni concetti chiave e
 verranno discussi in modo da poter contestualizzare meglio
 il lavoro svolto.
@@ -23,7 +23,7 @@ Nel contesto del rilevamento di spoiler, gli LLM offrono un
 potenziale significativo grazie alla loro capacità di
 comprendere il contesto e il significato delle parole.
 A differenza dei modelli basati su regole o su approcci di
-machine learning tradizionali, gli LLM possono catturare
+machine learning tradizionali, gli LLM potrebbero catturare
 sfumature semantiche e identificare spoiler anche in testi
 complessi e ambigui.
 
@@ -34,19 +34,19 @@ L'encoder è responsabile di trasformare il testo in input
 in una rappresentazione vettoriale, mentre il decoder è
 responsabile di generare il testo in output.
 
-Con l'introduzione del meccanismo di attenzione, i modelli
-LLM sono diventati sempre più potenti e sofisticati.
+Con l'introduzione del \textbf{meccanismo di attenzione}, i
+modelli LLM sono diventati sempre più potenti e
+sofisticati.
 Il meccanismo di attenzione permette al modello di estrarre
 il contesto delle parole nel testo, migliorando
 notevolemente le performance in una varietà di task.
 
 L'attenzione è stata successivamente estesa a modelli
-completamente \textit{attention-based}, come il
-Transformer.
+\textit{attention-based}, come il Transformer.
 
 \subsection{Attention is all you need}
 \label{sec:attention-is-all-you-need}
-Il Transformer è un modello di deep learning completamente
+Il Transformer è un modello di deep learning
 \textit{attention-based} introdotto da Vaswani et al.
 nel 2017 nel paper ``Attention is
 all you need''\cite{vaswani2017attention}.
@@ -59,7 +59,7 @@ Il meccanismo di attenzione è il cuore del Transformer.
 Questo meccanismo permette al modello di assegnare pesi
 diversi alle parole nel testo in input, in modo da poter
 focalizzare l'attenzione sulle parole più rilevanti per il
-task in questione.
+testo in input.
 
 \begin{figure}[H]
   \centering
@@ -76,14 +76,14 @@ Sono ampiamente utilizzati nel campo del deep learning per
 rappresentare parole, frasi, documenti e immagini in modo
 da poter essere usati come input per modelli di machine
 learning \cite{mikolov2013efficient}.
-Gli embedding vengono creati utilizzando modelli di machine
-learning che imparano a mappare gli oggetti in uno spazio
+Gli embedding vengono creati utilizzando modelli che
+imparano a \textit{mappare} gli oggetti in uno spazio
 vettoriale in modo che oggetti simili siano vicini tra
 loro.
-Alcuni esempi di modelli di embedding sono Word2Vec, GloVe
-e FastText.
+Tra i modelli di embedding più comuni troviamo
+\textbf{Word2Vec}, \textbf{GloVe} e \textbf{FastText}.
 
-Alcuni utilizzi comuni degli embedding includono:
+Alcune delle applicazioni per gli embedding includono:
 
 \begin{itemize}
   \item \textbf{Elaborazione del linguaggio naturale}: embedding
@@ -93,7 +93,7 @@ Alcuni utilizzi comuni degli embedding includono:
         parole.
   \item \textbf{Sistemi di raccomandazione}: utilizzare gli
         embedding per rappresentare utenti, prodotti, post in uno
-        spazio vettoriale, in modo da poter calcolarne la similarità.
+        spazio vettoriale, in modo da poterne calcolare la similarità.
   \item \textbf{Ricerca di immagini}: permettono di comparare
         immagini tra di loro o di comparare immagini e testo.
         Questo permette di cercare immagini tramite testo o
@@ -130,8 +130,7 @@ Recentemente sono stati introdotti diversi vector database
 come \textbf{Pinecone}, \textbf{Chroma} e \textbf{MongoDB
   Atlas}, ma per questo lavoro è stato scelto
 \textbf{PostgreSQL} con il modulo \textit{PGVector} per
-memorizzare gli embedding per semplicità di utilizzo e
-familiarità.
+semplicità di utilizzo e familiarità.
 
 \section{Fine-tuning di modelli}
 \label{sec:finetuning-di-modelli}
@@ -147,31 +146,30 @@ o linguaggio.
 Il finetuning di un modello pre addestrato comporta
 l'addestramento del modello su un dataset specifico per un
 numero limitato di epoche.
-Questa tecnica consente di sfruttare le conoscenze già
-apprese dal modello durante l'addestramento iniziale,
-riducendo il tempo e le risorse necessarie per addestrare
-un nuovo modello da zero.
+Questa tecnica consente di sfruttare le conoscenze
+pregresse del modello, evitando di investire tempo e
+risorse per addestrare un nuovo modello da zero.
 
 Durante il finetuning, i pesi del modello vengono
 aggiornati utilizzando un tasso di apprendimento più basso
 rispetto all'addestramento iniziale.
 Questo permette al modello di adattarsi al nuovo dataset
-senza dimenticare le conoscenze pregresse.
+senza peggiorare le prestazioni su dati già visti.
 
 Ciò risulta particolarmente utile quando si dispone di un
 dataset limitato o quando si desidera adattare un modello
-pre addestrato a un dominio specifico.
+pre-addestrato a un dominio specifico.
 
 \newpage
 \section{Transizione all'implementazione}
 \label{sec:transizione-implementazione}
 Avendo stabilito il contesto teorico e tecnologico nel
-capitolo precedente, il prossimo passo consiste nel
+capitolo corrente, il prossimo passo consiste nel
 descrivere come questi concetti sono stati applicati nella
 pratica.
 Nel prossimo capitolo ci focalizzeremo sugli aspetti
 pratici della realizzazione del sistema.
-Descriveremo in dettaglio il design e l'implementazione del
+Descrivendo in dettaglio il design e l'implementazione del
 sistema di rilevamento di spoiler, illustrando le sfide
 incontrate e le soluzioni adottate per creare
-un'applicazione efficace e utilizzabile.
+un sistema efficace e utilizzabile.

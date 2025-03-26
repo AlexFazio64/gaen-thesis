@@ -15,8 +15,8 @@ alcune parole chiave che sono tipicamente presenti in un
 testo che contiene spoiler.
 Ad esempio, le parole ``spoiler'' e ``spoiler alert'' sono
 spesso utilizzate per avvertire il lettore che il testo
-successivo contiene informazioni che potrebbero rovinargli
-la visione di un film o la lettura di un libro.
+successivo contiene informazioni che potrebbero rovinare la
+visione di un film o la lettura di un libro.
 Altri esempi di parole chiave potrebbero essere i nomi di
 personaggi o luoghi chiave della trama.
 Questo approccio è molto semplice e può essere implementato
@@ -41,22 +41,22 @@ a falsi negativi, ovvero a casi in cui il testo contiene
 spoiler ma non viene classificato come tale.
 Ad esempio, una recensione di un film potrebbe contenere
 informazioni cruciali sulla trama senza utilizzare le
-parole chiave tipicamente associate ai spoiler, o in casi
+parole chiave tipicamente associate agli spoiler, o in casi
 anche più semplificati, potrebbe essere scritta in una
 lingua diversa da quella in cui sono state definite le
-parole chiave, o potrebbe contenere errori di battitura o
-di ortografia che impediscono al sistema di riconoscere le
+parole chiave o contenere errori di battitura e di
+ortografia che impediscono al sistema di riconoscere le
 parole chiave.
 
 Per questi motivi, l'approccio basato su regole non
 promette risultati soddisfacenti e si è deciso di non
-adottarlo per questo progetto.
+adottarlo in questo lavoro.
 
 \subsection{Approccio basato su machine learning}
 \label{subsec:approccio-ml}
 
 Un approccio più sofisticato e promettente è quello basato
-su machine learning.
+sul machine learning.
 In questo approccio, si addestra un modello di machine
 learning su un insieme di dati di addestramento
 etichettati, ovvero un insieme di testi già classificati
@@ -71,11 +71,10 @@ contenenti spoiler.
 Questo approccio ha il vantaggio di essere molto più
 flessibile e potente rispetto all'approccio basato su
 regole, in quanto il modello di machine learning è in grado
-di riconoscere pattern complessi e sottili nei dati di
-addestramento e di generalizzare tali pattern ai nuovi
-dati.
+di riconoscere pattern complessi e sottili nei dati e di
+generalizzare tali pattern ai nuovi dati.
 Inoltre, il modello di machine learning è in grado di
-adattarsi automaticamente ai nuovi dati, senza la necessità
+adattarsi autonomamente ai nuovi dati, senza la necessità
 di modificare manualmente le regole o i parametri del
 sistema.
 
@@ -83,7 +82,8 @@ Tuttavia, l'approccio basato su machine learning ha anche
 alcuni svantaggi.
 In primo luogo, richiede un insieme di dati di
 addestramento etichettati, che possono essere costosi e
-laboriosi da ottenere.
+laboriosi da ottenere a seconda del dominio di
+applicazione.
 
 Il secondo svantaggio è che il modello di machine learning
 è difficile da realizzare e richiede competenze avanzate
@@ -112,7 +112,7 @@ concetti all'interno di un testo, e quindi di riconoscere i
 pattern che caratterizzano i testi contenenti spoiler.
 
 In particolare, si propone di utilizzare un modello di LLM
-pre-addestrato con lo scopo di estrarre lo spoiler da un
+pre-addestrato con lo scopo di \textbf{estrarre} lo spoiler da un
 testo piuttosto che classificare l'intero testo come
 contenente spoiler o non contenente spoiler, nel caso in
 cui il testo contenga spoiler.
@@ -124,10 +124,10 @@ un vasto insieme di dati e ha imparato a riconoscere i
 pattern nei testi in modo automatico e generale.
 
 A prescindere dal modello di LLM utilizzato, si propone di
-utilizzare un approccio basato su RAG (Retrieval-Augmented
-Generation) per arricchire il testo con informazioni
+utilizzare un approccio basato su \textbf{RAG} (\textit{Retrieval-Augmented
+Generation}) per arricchire il testo con informazioni
 realitive al contesto in cui è stato scritto.
-Ciò permette di migliorare la qualità delle predizioni del
+Ciò dovrebbe migliorare la qualità delle predizioni del
 modello di LLM, in quanto il contesto può influenzare il
 significato delle parole e dei concetti all'interno del
 testo.
