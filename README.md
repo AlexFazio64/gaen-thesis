@@ -1,3 +1,3 @@
 # GAEN: Generative AI for Enhanced Narrative
 
-Source Code is available in the different branches of this repository
+original data sets are not included in the repo to avoid any licensing issues.
