@@ -264,11 +264,122 @@ l'accelerazione GPU.
 Per questo motivo, sono stati utilizzati principalmente i
 modelli 1B e 4B.
 
-\subsection{Risultati}
-\label{sec:gemma3_results}
+\subsection{Risultati LLM}
+\label{sec:llm_results}
 
-Per valutare le prestazioni di Gemma3, è stato utilizzato
-un dataset diverso rispetto a quello utilizzato per il
-fine-tuning e la valutazione del modello di embedding.
+Per valutare le prestazioni dei diversi LLM, è stato
+utilizzato un dataset diverso rispetto a quello utilizzato
+per il fine-tuning e la valutazione del modello di
+embedding.
 
-% continue...
+Il dataset è composto da 100 frasi, ognuna delle quali è
+stata generata da un utente diverso.
+Le frasi possono contenere spoiler o meno, e in caso di
+spoiler, viene marcato l'estratto che contiene lo spoiler.
+
+Il dataset è stato procurato tramite scraping del sito
+\textbf{TVTropes}, un sito dedicato alla discussione di
+opere di narrativa e alla loro analisi.
+
+Il dataset è stato bilanciato in modo da avere un numero
+uguale di frasi con e senza spoiler.
+Le frasi sono state estratte in modo casuale dalla comunità
+dedicata all'opera \textbf{Monogatari Series}, che è anche
+l'oggetto del dataset utilizzato per il fine-tuning del
+modello di embedding.
+
+Si è scelto di mantenere il preprocessamento del dataset al
+minimo, poiché le frasi sono state raccolte direttamente
+dal sito web.
+Questo approccio permette di preservare la qualità naturale
+del linguaggio utilizzato dagli utenti reali.
+Il dataset risultante rappresenta un campione autentico di
+espressioni, caratterizzato da varietà di stili e
+dall'assenza di schemi predefiniti.
+
+Questa eterogeneità pone una sfida significativa per il
+modello, che non è stato addestrato su dati di questa
+natura e si trova ad affrontare un tipo di input inedito.
+
+La Tabella \ref{tab:risultati-llm} riassume i risultati
+ottenuti dai vari modelli.
+
+\begin{table}[h]
+  \centering
+  \begin{tabularx}{\textwidth}{l @{\extracolsep{\fill}} cccc}
+    \toprule
+    Modello              & Accuracy      & Precision      & Recall       & F1-score       \\
+    \midrule
+    Gemma3:1b            & 0.51          & 0.505          & \textbf{1.0} & 0.671          \\
+    Gemma3:4b            & 0.58          & 0.543          & \textbf{1.0} & 0.704          \\
+    \textbf{Gemma3:12b}* & \textbf{0.66} & \textbf{0.603} & 0.94         & \textbf{0.734} \\
+    Gemini 2.0-flash     & 0.59          & 0.552          & 0.96         & 0.701          \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Risultati delle prestazioni dei modelli.}
+  \label{tab:risultati-llm}
+\end{table}
+
+\section{Analisi dei risultati}
+\label{sec:analisi-risultati}
+
+I risultati ottenuti mostrano che la dimensione del modello
+ha un impatto notevole sulle prestazioni.
+Si osserva che Gemma3-12B ha ottenuto i migliori risultati
+in termini di accuratezza, precisione e F1-score, mentre i
+modelli più piccoli, come Gemma3-1B che mostra risultati
+simili ad un lancio di moneta, con un'accuratezza intorno
+al 50\%.
+
+Ricordiamo che:
+\begin{itemize}
+  \item Accuracy: Misura la proporzione di previsioni corrette
+        sul totale delle previsioni.
+  \item Precision: Misura quanto sono affidabili le previsioni
+        positive del modello.
+  \item Recall: Misura la capacità del modello di trovare tutti i
+        casi positivi.
+  \item F1-score: Fornisce un equilibrio tra precisione e recall,
+        utile quando si desidera considerare entrambi gli aspetti.
+\end{itemize}
+
+Dato il trend osservato, si è deciso di introdurre un
+ulteriore modello, \textbf{Gemini 2.0-flash}, top di gamma
+di Google, per confrontare le prestazioni con quelle di
+Gemma3-12B.
+
+Utilizzando la stessa metodologia di valutazione (con la
+differenza che Gemini è disponibile solamente attraverso
+API di Google), Gemini 2.0-flash ha ottenuto risultati
+inferiori rispetto a Gemma3-12B, nonostante Gemini
+2.0-flash sia un modello più grande e avanzato.
+
+I valori sono stati calcolati tramite la libreria
+\texttt{sklearn}, e si basano sulle previsioni del modello
+sui dati di test.
+
+Una nota importante è che i risultati sono stati ottenuti
+su un task di classificazione binaria, ovvero rilevare se
+una frase contiene uno spoiler o meno, tuttavia, il prompt
+del sistema richiedeva anche di evidenziare lo spoiler, il
+che potrebbe aver influenzato le prestazioni dei modelli.
+
+\section{Conclusioni}
+\label{sec:conclusioni}
+
+In questo capitolo, abbiamo presentato i risultati ottenuti
+durante la fase di valutazione del nostro sistema di
+rilevamento degli spoiler.
+Abbiamo discusso le prestazioni dei modelli di embedding e
+LLM, analizzando le loro capacità di categorizzare
+correttamente i dati in input e di generare embeddings
+ottimali.
+
+Abbiamo anche esaminato le prestazioni in fase di
+fine-tuning, evidenziando l'importanza di questo processo
+per migliorare le prestazioni dei modelli.
+Inoltre, abbiamo confrontato le prestazioni dei modelli
+Gemma3 e Gemini 2.0-flash, evidenziando le differenze tra i
+modelli e le loro capacità di rilevare spoiler nonostante
+le differenze di dimensioni, architettura, ma sopratutto,
+difficoltà del problema in esame.
