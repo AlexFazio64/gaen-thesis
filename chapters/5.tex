@@ -1,2 +1,274 @@
 \chapter{Valutazione}
 \label{ch:valutazione}
+
+\section{Introduzione}
+\label{sec:introduzione}
+In questo capitolo, presentiamo i risultati ottenuti
+durante la fase di valutazione del nostro sistema.
+
+Inizieremo con una panoramica dei dati utilizzati per il
+fine-tuning e la valutazione del modello, seguita da una
+descrizione delle metriche di valutazione impiegate.
+
+Successivamente, presenteremo i risultati ottenuti,
+analizzando le prestazioni del nostro sistema in termini di
+accuratezza e capacità di rilevamento degli spoiler.
+
+Discuteremo le implicazioni dei risultati e le possibili
+direzioni future per il miglioramento del sistema.
+
+\subsection{Specifiche tecniche}
+\label{sec:specs}
+La configurazione del sistema è stata eseguita su un
+computer con le seguenti specifiche:
+
+\begin{itemize}
+  \item CPU: AMD Ryzen 7 5800H (8 core, 16 thread)
+  \item GPU: NVIDIA GeForce RTX 3070 Laptop (8 GB)
+  \item RAM: 16 GB
+  \item Sistema operativo: Windows 10 22H2
+  \item Versione di Python: 3.12.9
+\end{itemize}
+
+\section{Dataset e metodologia}
+\label{sec:dataset_eval}
+
+Per la valutazione del nostro sistema, abbiamo utilizzato 2
+strategie: \textbf{pair} e \textbf{triplet}.
+Il dataset \textbf{pair} è derivato da \textbf{triplet}
+escludendo la colonna \textit{negative}.
+Questo ha permesso di valutare il sistema in diverse
+configurazioni.
+
+Il codice per la generazione degli split e il training è
+identico per entrambe le strategie, con l'unica differenza
+che per \textbf{pair} il dataset è stato ridotto a 2
+colonne: \textit{positive} e \textit{negative}, adattando
+la funzione di loss di conseguenza.
+Il seed utilizzato per la generazione degli split è
+298\cite{nisemonogatari_ep1}, garantendo la riproducibilità
+dei risultati.
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{l @{\extracolsep{\fill}} r}
+    \toprule
+    \textbf{Parametro} & \textbf{Valore}       \\
+    \midrule
+    Dataset            & 4067 righe            \\
+    Split              & 80\% train, 20\% test \\
+    Epoche             & 4                     \\
+    Loss (pair)        & CosineSimilarityLoss  \\
+    Loss (triplet)     & TripletLoss           \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Panoramica dei parametri utilizzati per il fine-tuning e la valutazione del modello.}
+  \label{tab:dataset_eval}
+\end{table}
+
+\section{Embedders}
+\label{sec:embedders_eval}
+Durante la creazione del sistema, si è deciso di
+utilizzare due modelli pre-addestrati per generare gli embedding:
+
+\begin{itemize}
+  \item \textbf{all-MiniLM-L6-v2}
+  \item \textbf{all-mpnet-base-v2}
+\end{itemize}
+
+Nessuno dei modelli è stato addestrato su dati specifici al
+dominio degli spoiler o sui dati utilizzati per il
+fine-tuning.
+Come mostrano i risultati di seguito, nessuno dei modelli
+soddisfaceva i requisiti per il task dato il dominio
+specifico, ma con un fine-tuning adeguato, sono stati in
+grado di generare embeddings soddisfacenti.
+
+Entrambi i modelli sono disponibili su HuggingFace,
+installando la libreria \texttt{sentence-transformers}.
+I modelli scelti sono comunemente utilizzati per la
+creazione di embeddings per frasi o paragrafi brevi,
+rendendoli adatti al nostro task.
+Il codice per il fine-tuning e la valutazione è stato
+scritto in Python ed è disponibile su GitHub.
+% link github
+
+\newpage
+\subsection{Risultati}
+\label{sec:risultati}
+\textbf{Nota:} I migliori risultati sono segnalati con un asterisco
+(\textbf{*})
+
+\subsubsection{Pair}
+\label{sec:pair}
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{l @{\extracolsep{\fill}} r}
+    \toprule
+    Modello                     & {Similarità positiva} \\
+    \midrule
+    \multicolumn{2}{c}{\textbf{Pre-addestramento}}      \\
+    \midrule
+    all-mpnet-base-v2           & 0.1554                \\
+    \textbf{all-MiniLM-L6-v2}*  & \textbf{0.1688}       \\
+    \midrule
+    \multicolumn{2}{c}{\textbf{Fine-tuned}}             \\
+    \midrule
+    \textbf{all-mpnet-base-v2}* & \textbf{0.9975}       \\
+    all-MiniLM-L6-v2            & 0.9938                \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Risultati della valutazione dei modelli di embedding (Pair)}
+  \label{tab:embedding_pair}
+\end{table}
+
+\subsubsection{Triplet}
+\label{sec:triplet}
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{l @{\extracolsep{\fill}} r @{\extracolsep{\fill}} r}
+    \toprule
+    Modello                     & {Similarità positiva} & {Similarità negativa} \\
+    \midrule
+    \multicolumn{3}{c}{\textbf{Pre-addestramento}}                              \\
+    \midrule
+    all-mpnet-base-v2           & 0.1554                & 0.2001                \\
+    \textbf{all-MiniLM-L6-v2}*  & \textbf{0.1688}       & \textbf{0.2113}       \\
+    \midrule
+    \multicolumn{3}{c}{\textbf{Fine-tuned}}                                     \\
+    \midrule
+    \textbf{all-mpnet-base-v2}* & \textbf{0.6358}       & \textbf{-0.8118}      \\
+    all-MiniLM-L6-v2            & 0.6274                & -0.7221               \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Risultati della valutazione dei modelli di embedding (Triplet)}
+  \label{tab:embedding_triplet}
+\end{table}
+
+Notiamo che i risultati pre-addestramento sono molto bassi,
+e simili tra loro, il che indica che i modelli non sanno
+distinguere categorizzare bene i dati in input.
+Tuttavia, dopo il fine-tuning, i risultati sono
+significativamente migliorati, con all-mpnet-base-v2 che
+ottiene i migliori risultati in entrambe le configurazioni.
+Da notare che i risultati nella configurazione
+\textbf{pair} sono migliori rispetto a quelli nella
+configurazione \textbf{triplet}, ma ciò indica solo che i
+modelli hanno appreso a generare embedding più simili tra
+loro, \textbf{non necessariamente più accurati}.
+
+\subsection{Considerazioni}
+\label{sec:considerazioni}
+
+In definitiva, i risultati mostrano che il fine-tuning ha
+portato a un miglioramento significativo delle prestazioni,
+specialmente nella configurazione \textbf{triplet}, dove i
+modelli sono stati in grado di generare embedding con una
+similarità positiva superiore a $0.64$ e una similarità
+negativa inferiore a $-0.81$.
+Ciò indica che i modelli sono stati in grado di raggruppare
+correttamente i dati simili e separare quelli dissimili,
+dimostrando la loro efficacia in questo task dopo un
+adeguato fine-tuning.
+
+Nononstante all-mpnet-base-v2 abbia ottenuto, di poco,
+risultati migliori rispetto a all-MiniLM-L6-v2,
+quest'ultimo ha dimostrato di essere più veloce e più
+leggero, rendendolo la scelta preferita per questo
+progetto.
+Inoltre, all-MiniLM-L6-v2 ha mostrato prestazioni migliori
+in fase di fine-tuning.
+
+\subsection{Prestazioni in fase di fine-tuning}
+\label{sec:prestazioni-fine-tuning}
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{l @{\extracolsep{\fill}} c @{\extracolsep{\fill}} c @{\extracolsep{\fill}} r}
+    \toprule
+    Modello           & {Tempo (min:sec)} & Step & {Perdita} \\
+    \midrule
+    all-mpnet-base-v2 & 03:26             & 500  & 3.8035    \\
+    all-MiniLM-L6-v2  & 00:53             & 500  & 4.0104    \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Tempi e perdite del fine-tuning (Triplets)}
+  \label{tab:finetuning_triplets}
+\end{table}
+
+\begin{table}[H]
+  \begin{tabularx}{\textwidth}{l @{\extracolsep{\fill}} c @{\extracolsep{\fill}} c @{\extracolsep{\fill}} r}
+    \toprule
+    Modello           & {Tempo (min:sec)} & Step & {Perdita} \\
+    \midrule
+    all-mpnet-base-v2 & 02:10             & 500  & 0.0183    \\
+    all-MiniLM-L6-v2  & 00:37             & 500  & 0.0263    \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Tempi e perdite del fine-tuning (Pairs)}
+  \label{tab:finetuning_pairs}
+\end{table}
+
+Le prestazioni di all-MiniLM-L6-v2 sono decisamente
+migliori rispetto a quelle di all-mpnet-base-v2 in termini
+di tempo.
+Il tempo di inferenza è un aspetto critico per
+l'implementazione di modelli che devono essere utilizzati
+in locale, e questo modello ha dimostrato di essere la
+scelta più adatta per il nostro scopo.
+
+\section{LLM}
+\label{sec:llm_eval}
+
+Per la valutazione del modello LLM, è stato scelto
+\textbf{Gemma3}.
+
+\subsection{Gemma3}
+\label{sec:gemma3}
+Gemma3 è un modello LLM open-weight sviluppato da Google,
+progettato per essere altamente efficiente e performante.
+Gemma3 ha capacità multimodali, il che significa che può
+elaborare testo e immagini.
+
+Data la sua architettura avanzata derivante da Gemini, lo
+stato dell'arte dei modelli di Google, Gemma3 è in grado di
+comprendere e generare contenuti con performance
+competitive rispetto a modelli di dimensioni molto
+maggiori\cite{gemma_2025}.
+
+Per questo progetto, non abbiamo utilizzato la modalità
+multimodale, ma ci siamo concentrati sulla generazione di
+testo.
+
+Si è deciso di utilizzare Gemma3 per la sua capacità di
+generare testo di alta qualità e la sua architettura
+leggera che consente un'implementazione rapida ed
+efficiente a latenza ridotta.
+
+A causa di limitazioni hardware, non è stato possibile
+scaricare il modello completo, quindi è stato scelto di
+utilizzare versioni del modello con dimensioni diverse.
+Gemma3 è disponibile in diverse dimensioni:
+
+\begin{itemize}
+  \item \textbf{Gemma3-1B}: 1 miliardo di parametri
+  \item \textbf{Gemma3-4B}: 4 miliardi di parametri
+  \item \textbf{Gemma3-12B}: 12 miliardi di parametri
+  \item \textbf{Gemma3-27B}: 27 miliardi di parametri
+\end{itemize}
+
+La versione 1B non possiede la capacità multimodali, mentre
+la versione 12B ha una dimensione $>8GB$, per cui non è
+stato possibile utilizzare appieno il modello sfruttando
+l'accelerazione GPU.
+Per questo motivo, sono stati utilizzati principalmente i
+modelli 1B e 4B.
+
+\subsection{Risultati}
+\label{sec:gemma3_results}
+
+Per valutare le prestazioni di Gemma3, è stato utilizzato
+un dataset diverso rispetto a quello utilizzato per il
+fine-tuning e la valutazione del modello di embedding.
+
+% continue...
