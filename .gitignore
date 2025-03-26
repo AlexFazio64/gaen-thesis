@@ -1,12 +1,5 @@
-*.gz
-*.log
-*.fls
-*.fdb_latexmk
-*.aux
-*.synctex.gz
-*.toc
-*.out
-docs
-*.bbl
-*.blg
-res/tifa.png
+node_modules
+content
+package-lock.json
+log.txt
+parsed.json
