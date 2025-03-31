@@ -106,8 +106,11 @@ consente di eseguire LLM in modo rapido e efficiente
 sfruttando l'accelerazione hardware delle GPU quando
 possibile.
 Ollama offre una varieta di modelli LLM pre-addestrati, tra
-cui \textbf{Llama}, \textbf{Mistral}, \textbf{Phi},
-\textbf{Deepseek} e \textbf{Gemma}.
+cui \textbf{Llama}\cite{touvron2023llama},
+\textbf{Mistral}\cite{jiang2023mistral},
+\textbf{Phi}\cite{phi-4},
+\textbf{Deepseek}\cite{deepseek-ai2025deepseekr1} e
+\textbf{Gemma}\cite{gemma_2025}.
 
 In particolare, \textbf{Gemma} è il modello utilizzato per
 testare il sistema, in quanto è ottimizzato per l'uso in
@@ -227,7 +230,10 @@ elencati di seguito:
             Nodi isolati                         & 76      \\
             \bottomrule
       \end{tabularx}
-      \caption{Statistiche globali del grafo}
+      \caption{Statistiche globali del grafo.
+            Per la descrizione delle metriche, si veda la Sezione
+            \ref{sec:graph_metrics}.
+      }
       \label{tab:graph_stats}
 \end{table}
 
@@ -242,7 +248,10 @@ elencati di seguito:
             Centralità di Closeness    & 0.365  \\
             \bottomrule
       \end{tabularx}
-      \caption{Statistiche per singoli nodi}
+      \caption{Statistiche per singoli nodi.
+            Per la descrizione delle metriche, si veda la Sezione
+            \ref{sec:graph_metrics}.
+      }
       \label{tab:node_stats}
 \end{table}
 
@@ -251,6 +260,24 @@ elencati di seguito:
 I valori riportati nelle tabelle \ref{tab:graph_stats} e
 \ref{tab:node_stats} sono stati generati su un dataset di
 esempio per illustrare le funzionalità del visualizer.
+
+\subsubsection{Metriche del grafo}
+\label{sec:graph_metrics}
+Le seguenti metriche sono state utilizzate per valutare le caratteristiche del grafo:
+
+\begin{itemize}
+      \item \textbf{Coefficiente di assortatività}: Misura la tendenza dei nodi a connettersi con altri nodi simili.
+            Un valore negativo indica che i nodi tendono a connettersi
+            con nodi dissimili.
+      \item \textbf{Mescolanza di assortatività discreta}: Variazione del coefficiente di assortatività per attributi discreti dei nodi.
+      \item \textbf{Diametro del grafo}: La massima distanza tra due nodi qualsiasi nel grafo.
+      \item \textbf{Densità del grafo}: Rapporto tra il numero di archi presenti e il numero massimo possibile di archi.
+      \item \textbf{Lunghezza media del percorso}: La distanza media tra tutte le coppie di nodi nel grafo.
+      \item \textbf{Nodi isolati}: Numero di nodi che non sono connessi ad altri nodi.
+      \item \textbf{Coefficiente di Clustering}: Misura quanto i vicini di un nodo sono connessi tra loro.
+      \item \textbf{Componenti nel Cluster}: Numero di sottografi connessi nel grafo.
+      \item \textbf{Centralità di Closeness}: Misura quanto un nodo è vicino a tutti gli altri nodi nel grafo.
+\end{itemize}
 
 \section{Preparazione del dataset}
 \label{sec:dataset_prep}

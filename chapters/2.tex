@@ -52,7 +52,7 @@ Per questi motivi, l'approccio basato su regole non
 promette risultati soddisfacenti e si è deciso di non
 adottarlo in questo lavoro.
 
-\subsection{Approccio basato su machine learning}
+\subsection{Approccio basato sul machine learning}
 \label{subsec:approccio-ml}
 
 Un approccio più sofisticato e promettente è quello basato
@@ -78,7 +78,7 @@ adattarsi autonomamente ai nuovi dati, senza la necessità
 di modificare manualmente le regole o i parametri del
 sistema.
 
-Tuttavia, l'approccio basato su machine learning ha anche
+Tuttavia, l'approccio basato sul machine learning ha anche
 alcuni svantaggi.
 In primo luogo, richiede un insieme di dati di
 addestramento etichettati, che possono essere costosi e
@@ -90,10 +90,10 @@ Il secondo svantaggio è che il modello di machine learning
 per la sua implementazione.
 Inoltre, il modello deve essere addestrato su un insieme di
 dati di addestramento rappresentativo e bilanciato,
-altrimenti potrebbe essere soggetto a overfitting o a
-underfitting.
+altrimenti potrebbe essere soggetto a \textit{overfitting}
+o a \textit{underfitting}.
 
-Generalizzando, l'approccio basato su machine learning è
+Generalizzando, l'approccio basato sul machine learning è
 più complesso e richiede più risorse rispetto all'approccio
 basato su regole, ma promette risultati migliori e più
 accurati.
@@ -102,7 +102,7 @@ accurati.
 \label{sec:approccio-proposto}
 
 Per affrontare il problema della rilevazione di spoiler in
-un testo, si propone di utilizzare un approccio basato su
+un testo, si propone di utilizzare un approccio basato sul
 machine learning.
 
 L'intuizione alla base di questo approccio è che i LLM
@@ -112,8 +112,8 @@ concetti all'interno di un testo, e quindi di riconoscere i
 pattern che caratterizzano i testi contenenti spoiler.
 
 In particolare, si propone di utilizzare un modello di LLM
-pre-addestrato con lo scopo di \textbf{estrarre} lo spoiler da un
-testo piuttosto che classificare l'intero testo come
+pre-addestrato con lo scopo di \textbf{estrarre} lo spoiler
+da un testo piuttosto che classificare l'intero testo come
 contenente spoiler o non contenente spoiler, nel caso in
 cui il testo contenga spoiler.
 
@@ -124,9 +124,11 @@ un vasto insieme di dati e ha imparato a riconoscere i
 pattern nei testi in modo automatico e generale.
 
 A prescindere dal modello di LLM utilizzato, si propone di
-utilizzare un approccio basato su \textbf{RAG} (\textit{Retrieval-Augmented
-Generation}) per arricchire il testo con informazioni
-realitive al contesto in cui è stato scritto.
+utilizzare un approccio basato su \textbf{RAG}
+(\textit{Retrieval-Augmented
+  Generation})\cite{lewis2020retrievalaugmented} per
+arricchire il testo con informazioni realitive al contesto
+in cui è stato scritto.
 Ciò dovrebbe migliorare la qualità delle predizioni del
 modello di LLM, in quanto il contesto può influenzare il
 significato delle parole e dei concetti all'interno del
