@@ -1,0 +1,76 @@
+\documentclass[a5paper, 12pt]{report}
+\usepackage{titling}
+\usepackage{graphics}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+
+% \usepackage[showframe]{geometry}
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{wrapfig}
+\usepackage{lipsum}
+\usepackage{fontawesome5}
+\usepackage{titlesec}
+\usepackage{multicol}
+\usepackage{svg}
+\usepackage{amsthm}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+\begin{titlepage}
+  \begin{center}
+    \includegraphics[width=0.95\textwidth]{res/demacs_1.png}
+    \vskip 8pt
+    \hrule
+    \vskip 8pt
+    \textbf{Artificial Intelligence and Computer Science}
+    \vskip 70pt
+      { \large \bfseries GAEN: Generative AI for Enhanced Narrative - Rilevamento di Spoiler Mediante Modelli Generativi Avanzati}
+    \vskip 70pt
+
+    \noindent\begin{tabularx}{\textwidth}{@{}l @{\extracolsep{\fill}} r@{}}
+      Relatori:       & Candidato:       \\ Prof.
+      Gianluigi Greco & Alessandro Fazio \\ Prof.
+      Kazumi Saito    & Matricola 242422 \\
+    \end{tabularx}
+
+    \vfill
+    \hrule
+    \vskip 8pt
+    Anno Accademico 2024/2025
+  \end{center}
+
+\end{titlepage}
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\input{chapters/1}
+\input{chapters/2}
+\input{chapters/3}
+\input{chapters/4}
+\input{chapters/5}
+\input{chapters/6}
+
+\bibliographystyle{plain}
+\bibliography{citazioni}
+\end{document}
